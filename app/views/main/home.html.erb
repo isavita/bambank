@@ -2,6 +2,7 @@
 <p>Your online bank with its own currency, Bambeuros</p>
 <% if current_user %>
     <p>Hello <%= current_user.email %></p>
+    <%= link_to "Show Account", current_user.account %>
 <% else %>
     <div>
         <%= link_to "Sign In", new_user_session_path, class: "btn btn-primary" %>
