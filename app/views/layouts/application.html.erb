@@ -12,6 +12,9 @@
 
   <body>
     <%= render 'layouts/navbar' %>
-    <%= yield %>
+    <%= render 'layouts/alerts' %>
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
   </body>
 </html>
