@@ -1,13 +1,24 @@
-<%= form_with(model: Transaction.new, url: transactions_path, method: :post, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :recipient_id, 'Recipient' %>
-    <%= form.collection_select :recipient_id, User.where.not(id: current_user.id), :id, :email, { include_blank: 'No users' } %>
-  </div>
+<div class="card">
 
-  <div class="field">
-    <%= form.label :amount, 'Amount' %>
-    <%= form.number_field :amount, step: 1 %>
-  </div>
+  <div class="card-body">
+    <h3 class="card-title">Send money</h3>
+    <% if flash[:error] %>
+      <div class="alert alert-danger">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+    <%= form_with(model: Transaction.new, url: transactions_path, method: :post, local: true, class: 'my-3') do |form| %>
+      <div>
+        <%= form.label :recipient_id, 'Recipient', class: 'form-label' %>
+        <%= form.collection_select :recipient_id, User.where.not(id: current_user.id), :id, :email, { include_blank: 'No users' }, class: 'form-select' %>
+      </div>
 
-  <%= form.submit 'Send Money', class: 'btn btn-primary' %>
-<% end %>
+      <div>
+        <%= form.label :amount, 'Amount', class: 'form-label' %>
+        <%= form.number_field :amount, step: 1, class: 'form-control' %>
+      </div>
+      <br>
+      <%= form.submit 'Send Money', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

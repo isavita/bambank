@@ -13,7 +13,7 @@ class TransactionsController < ApplicationController
       recipient = User.find_by_id(transaction_params[:recipient_id])
       unless recipient && recipient.account
         flash[:error] = "Recipient does not exist or does not have an account."
-        redirect_to account_path(current_user.account)
+        redirect_to account_path(current_user.account, status: :unprocessable_entity)
 
         return
       end
@@ -22,13 +22,13 @@ class TransactionsController < ApplicationController
       # Check if the current user has enough balance
       if amount <= 0
         flash[:error] = "You must send a positive amount."
-        redirect_to account_path(current_user.account)
+        redirect_to account_path(current_user.account, status: :unprocessable_entity)
         return
       end
 
       if current_user.account.balance < amount
         flash[:error] = "You do not have enough balance to complete this transaction."
-        redirect_to account_path(current_user.account)
+        redirect_to account_path(current_user.account, status: :unprocessable_entity)
         return
       end
   
@@ -46,7 +46,7 @@ class TransactionsController < ApplicationController
           redirect_to account_path(current_user.account)
         else
           flash[:error] = @transaction.errors.full_messages.to_sentence
-          redirect_to account_path(current_user.account)
+          redirect_to account_path(current_user.account, status: :unprocessable_entity)
         end
       end
     end

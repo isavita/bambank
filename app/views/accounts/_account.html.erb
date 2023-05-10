@@ -1,12 +1,17 @@
-<div id="<%= dom_id account %>">
-  <p>
-    <strong>User:</strong>
-    <%= account.user_id %>
-  </p>
+<div class="card" id="<%= dom_id account %>">
+  <div class="card-body">
+    <h5 class="card-title">Account Information</h5>
 
-  <p>
-    <strong>Balance:</strong>
-    <%= account.balance %>
-  </p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <strong>User:</strong>
+        <%= User.find(account.user_id).email %>
+      </li>
 
+      <li class="list-group-item">
+        <strong>Balance:</strong>
+        <%= number_to_currency(account.balance, unit: 'Bambeuros ', separator: '.', delimiter: ',') %>
+      </li>
+    </ul>
+  </div>
 </div>
