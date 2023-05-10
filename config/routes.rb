@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   resources :accounts
   devise_for :users
+
+  resources :transactions, only: [:create]
 end

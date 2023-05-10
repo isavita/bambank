@@ -1,10 +1,45 @@
 <p style="color: green"><%= notice %></p>
-
 <%= render @account %>
+<h2>Send Money</h2>
+<br>
+<%= render "send_money", account: @account %>
+<br>
+<h2>Sent Transactions</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Amount</th>
+      <th scope="col">Recipient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @account.sent_transactions.each do |transaction| %>
+      <tr>
+        <td style="color: red">-<%= transaction.amount %> Bambeuros <i class="fas fa-arrow-right"></i></td>
+        <td><%= User.find(transaction.recipient_id).email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Received Transactions</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Amount</th>
+      <th scope="col">Sender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @account.received_transactions.each do |transaction| %>
+      <tr>
+        <td style="color: green"><%= transaction.amount %> Bambeuros <i class="fas fa-arrow-left"></i></td>
+        <td><%= User.find(transaction.sender_id).email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <div>
-  <%= link_to "Edit this account", edit_account_path(@account) %> |
-  <%= link_to "Back to accounts", accounts_path %>
-
-  <%= button_to "Destroy this account", @account, method: :delete %>
+  <%= link_to "Back to Home", root_path %>
 </div>
