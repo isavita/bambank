@@ -34,14 +34,16 @@ class TransactionsController < ApplicationController
   
       # Create the transaction and update account balances
       ActiveRecord::Base.transaction do
+        current_user.account.lock!
+        recipient.account.lock!
         @transaction = Transaction.new(transaction_params)
         @transaction.sender_id = current_user.id
         @transaction.sender_account = current_user.account
         @transaction.recipient_account = recipient.account
 
         if @transaction.save
-          current_user.account.update(balance: current_user.account.balance - amount)
-          recipient.account.update(balance: recipient.account.balance + amount)
+          current_user.account.update!(balance: current_user.account.balance - amount)
+          recipient.account.update!(balance: recipient.account.balance + amount)
           flash[:notice] = "Transaction successful!"
           redirect_to account_path(current_user.account)
         else

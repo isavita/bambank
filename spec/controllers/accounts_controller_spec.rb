@@ -14,5 +14,10 @@ RSpec.describe AccountsController, type: :controller do
       expect(response).to render_template('show')
       expect(response.status).to eq(200)
     end
+
+    it 'renders error when malformatted id' do
+      get :show, params: { id: "account" }
+      expect(response.status).to eq(404)
+    end
   end
 end
